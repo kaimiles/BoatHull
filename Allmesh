@@ -1,0 +1,24 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Copy DTC hull surface from resources folder
+cp $FOAM_TUTORIALS/resources/geometry/DTC-scaled.stl.gz constant/geometry/
+
+runApplication surfaceTransformPoints Ry=-0.56 constant/geometry/ScaledBoatOrig.stl constant/geometry/ScaledBoat.stl
+
+runApplication surfaceFeatures
+
+runApplication blockMesh
+
+runApplication refineMesh
+
+runApplication transformPoints "scale=(5 5 5)"
+
+runApplication snappyHexMesh
+
+runApplication renumberMesh -noFields
+
+#------------------------------------------------------------------------------

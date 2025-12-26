@@ -1,0 +1,10 @@
+set logscale y
+set title "Residuals"
+set ylabel 'Residual'
+set xlabel 'Iteration'
+plot "< cat log.foamRun | grep 'Solving for alpha.water' | cut -d' ' -f9 | sed -n 'p;N;N' | tr -d ','" title 'alpha.water' with lines,\
+     "< cat log.foamRun | grep 'Solving for omega' | cut -d' ' -f9 | tr -d ','" title 'omega' with lines,\
+     "< cat log.foamRun | grep 'Solving for k' | cut -d' ' -f9 | tr -d ','" title 'k' with lines,\
+     "< cat log.foamRun | grep 'Solving for p_rgh' | cut -d' ' -f9  | sed -n 'p;N;N;N;N;N;N;N;N;N;N;N' | tr -d ','" title 'p_r_g_h' with lines
+pause 1
+reread 

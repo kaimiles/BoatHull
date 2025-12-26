@@ -1,0 +1,4 @@
+!gnuplot CourantNumber &
+!gnuplot Residuals &
+!gnuplot forceCoeffs &
+!gnuplot TimeStepPlot
