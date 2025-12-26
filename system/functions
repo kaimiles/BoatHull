@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      functions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+rigidBodyForces
+{
+    type            rigidBodyForces;
+    libs            ("librigidBodyForces.so");
+    body            hull;
+    patches         (hull);
+    log             on;
+    writeControl    timeStep;
+    writeInterval   1;
+};
+
+patchProbes
+{
+    type            patchProbes;
+    libs            (sampling);
+	writeControl    timeStep;
+
+    patchName           inlet;
+    probeLocations
+    (
+        (20 0 0.3) // A
+    );
+    fields          (U);
+}
+
+patchProbes1
+{
+    type            patchProbes;
+    libs            (sampling);
+	writeControl    timeStep;
+
+    patchName           outlet;
+    probeLocations
+    (
+        (-16 0 0.3) // A
+    );
+    fields          (U);
+}
+
+forces
+{
+    type            forces;
+    libs            ("libforces.so");
+    patches         (hull);
+    log             on;
+    writeControl    timeStep;
+    writeInterval   1;
+    CofR            (0 0 0);
+}
+
+rigidBodyState
+{
+    type           rigidBodyState;
+    libs           ("librigidBodyState.so");
+    angleUnits     [deg];
+    angularVelocityUnits [deg/s];
+}
+
+// ************************************************************************* //

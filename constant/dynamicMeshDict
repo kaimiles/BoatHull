@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+mover
+{
+    type            motionSolver;
+
+    libs            ("librigidBodyMeshMotion.so");
+
+    motionSolver    rigidBodyMotion;
+
+    report          on;
+
+    solver
+    {
+        type Newmark;
+    }
+
+    accelerationRelaxation 0.4;
+
+    bodies
+    {
+        hull
+        {
+            type            rigidBody;
+            parent          root;
+
+            centreOfMass    (2.0 0 0.3);
+            mass            1000;
+            inertia         (317.39 0 -56.289 2423.405 0 2643.39);
+            transform       (   0.9999522364 0 -0.009773688199
+                                0 1 0 
+                                0.009773688199 0 0.9999522364
+                            ) 
+                            (2.0 0 0.3);
+
+            joint
+            {
+                type    composite;
+                joints
+                (
+                    {
+                        type Pz;
+                    }
+                    {
+                        type Ry;
+                    }
+                );
+            }
+
+            patches         (hull);
+            innerDistance   0.3;
+            outerDistance   5;
+        }
+    }
+
+    restraints
+    {
+        translationDamper
+        {
+            type linearDamper;
+            body hull;
+            coeff 100;
+        }
+
+        rotationDamper
+        {
+            type sphericalAngularDamper;
+            body hull;
+            coeff 242.34;
+        }
+
+        force
+        {
+            type        externalForce;
+            body        hull;
+            location    (0 0 0);
+            force       (5000 0 0);
+        }
+    }
+}
+
+
+// ************************************************************************* //

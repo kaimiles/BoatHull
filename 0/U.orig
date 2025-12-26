@@ -1,0 +1,67 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// inlet velocity
+
+//Uref 5.1444; // 10 kt
+//Uref 10.289; // 20 kt
+//Uref 15.4333; // 30 kt
+//Uref 20.578; // 40 kt
+Uref 25.722; // 50 kt
+
+Ufield 0.00001; 
+last 10;
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (#neg $Uref 0 0);
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    inlet
+    {
+        type            fixedValue;
+        value           $internalField;
+    }
+
+
+    outlet
+    {
+        type            outletPhaseMeanVelocity;
+        alpha           alpha.water;
+        value           $internalField;
+        UnMean          $Uref;
+    }
+
+    ambient
+    {
+        type            pressureInletOutletVelocity;
+        tangentialVelocity $internalField;
+        value           uniform (0 0 0);
+    }
+
+    hull
+    {
+        type            movingWallVelocity;
+        value           uniform (0 0 0);
+    }
+}
+
+
+// ************************************************************************* //
