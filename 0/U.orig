@@ -16,12 +16,7 @@ FoamFile
 
 // inlet velocity
 
-//Uref 5.1444; // 10 kt
-//Uref 10.289; // 20 kt
-//Uref 15.4333; // 30 kt
-//Uref 20.578; // 40 kt
-Uref 25.722; // 50 kt
-
+Uref 5.1444; // 10 kt
 Ufield 0.00001; 
 last 10;
 
