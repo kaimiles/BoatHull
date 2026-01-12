@@ -1,5 +1,1 @@
-export OMP_NUM_THREADS=1
-export OMPI_MCA_hwloc_base_use_hwthreads=1
-export OMPI_MCA_hwloc_base_binding_policy=none
-export OMPI_MCA_rmaps_base_oversubscribe=1
-export OMPI_MCA_rmaps_base_mapping_policy=hwthread
+Incompressible VoF solver to simulate planning hull characteristics in a tow tank test
